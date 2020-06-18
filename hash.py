@@ -1,5 +1,4 @@
 import hashlib
-import sys
 
 
 def hash_it(file, algorithm):
@@ -17,26 +16,23 @@ def hash_it(file, algorithm):
     else:
         raise Exception(
             "Incompatible hash algorithm used. Choose from: sha256 | sha1 | md5")
-    try:
-        with open(file, 'rb') as f:
-            hasher.update(f.read())
-        return hasher.hexdigest()
-    except FileNotFoundError:
-        return "Invalid Path or File!"
+    with open(file, 'rb') as f:
+        hasher.update(f.read())
+    return hasher.hexdigest()
 
 
 if __name__ == "__main__":
 
     import argparse
     parser = argparse.ArgumentParser(
-        description="Calculate hashes",
-        epilog="By default the script generates sha256 hash")
+        description="calculate file hashes",
+        epilog="by default the script generates sha256 hash")
     parser.add_argument("file", action="store",
                         type=str, help="file to hash")
     parser.add_argument("-a", "--algorithm", action="store", nargs="+", default=["sha256"], choices=["sha1", "sha256", "md5"],
-                        type=str, help="algorithms to use for hashing", metavar="", required=False)
+                        type=str, help="algorithms to use for hashing file (choose from 'sha1', 'sha256', 'md5')", metavar="", required=False)
     parser.add_argument("-c", "--compare", action="store",
-                        help="compare sha1, sha256 and md5 with the provided hash", metavar="HASH")
+                        help="compare file hash with the provided hash", metavar="HASH")
     data = parser.parse_args()
     # print(data)
     # if data.compare:

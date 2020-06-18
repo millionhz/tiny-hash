@@ -75,7 +75,7 @@ HASH MATCHED!
 python hash.py --help
 usage: hash.py [-h] [-a  [...]] [-c HASH] file
 
-Calculate hashes
+calculate file hashes
 
 positional arguments:
   file                  file to hash
@@ -83,9 +83,9 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -a  [ ...], --algorithm  [ ...]
-                        algorithms to use for hashing
+                        algorithms to use for hashing a file (choose from 'sha1', 'sha256', 'md5')
   -c HASH, --compare HASH
-                        compare sha1, sha256 and md5 with the provided hash
+                        compare file hash with the provided hash
 
-By default the script generates sha256 hash
+by default the script generates sha256 hash
 ```
