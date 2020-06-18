@@ -34,7 +34,7 @@ if __name__ == "__main__":
     parser.add_argument("file", action="store",
                         type=str, help="file to hash")
     parser.add_argument("-a", "--algorithm", action="store", nargs="+", default=["sha256"], choices=["sha1", "sha256", "md5"],
-                        type=str, help="algorithms to use for hashing", required=False)
+                        type=str, help="algorithms to use for hashing", metavar="", required=False)
     parser.add_argument("-c", "--compare", action="store",
                         help="compare sha1, sha256 and md5 with the provided hash", metavar="HASH")
     data = parser.parse_args()
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     for algo in data.algorithm:
         file_hash[algo] = hash_it(data.file, algo)
     # printing
-    for algo ,c_hash in file_hash.items():
+    for algo, c_hash in file_hash.items():
         print(f"{algo}: {c_hash}")
     # compare hash
     if data.compare:
