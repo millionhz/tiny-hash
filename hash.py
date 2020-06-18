@@ -1,4 +1,5 @@
 import hashlib
+import sys
 
 
 def hash_it(file, algorithm):
@@ -15,7 +16,7 @@ def hash_it(file, algorithm):
         hasher = hashlib.md5()
     else:
         raise Exception(
-            "Incompatible hash algorithm provided. Choose from: sha256 | sha1 | md5")
+            "Incompatible hash algorithm used. Choose from: sha256 | sha1 | md5")
     try:
         with open(file, 'rb') as f:
             hasher.update(f.read())
@@ -28,18 +29,31 @@ if __name__ == "__main__":
 
     import argparse
     parser = argparse.ArgumentParser(
-        description="Calculate sha256 hash")
+        description="Calculate hashes",
+        epilog="By default the script generates sha256 hash")
     parser.add_argument("file", action="store",
                         type=str, help="file to hash")
+    parser.add_argument("-a", "--algorithm", action="store", nargs="+", default=["sha256"], choices=["sha1", "sha256", "md5"],
+                        type=str, help="algorithms to use for hashing", required=False)
     parser.add_argument("-c", "--compare", action="store",
-                        help="compare generated hash with the provided hash", metavar="HASH")
+                        help="compare sha1, sha256 and md5 with the provided hash", metavar="HASH")
     data = parser.parse_args()
+    # print(data)
+    # if data.compare:
+    #     data.algorithm = ["sha1", "sha256", "md5"]
     # calculate hash
-    file_hash = hash_it(data.file, "sha256")
-    print(f"sha256 of file: {file_hash}")
+    file_hash = {}
+    print("Calculating Hash...")
+    print()
+    for algo in data.algorithm:
+        file_hash[algo] = hash_it(data.file, algo)
+    # printing
+    for algo ,c_hash in file_hash.items():
+        print(f"{algo}: {c_hash}")
     # compare hash
     if data.compare:
-        if data.compare == file_hash:
+        print()
+        if data.compare in file_hash.values():
             print("HASH MATCHED!")
         else:
             print("HASH MATCH FAILED!")
