@@ -29,15 +29,20 @@ if __name__ == "__main__":
         epilog="by default the script generates sha256 hash")
     parser.add_argument("file", action="store",
                         type=str, help="file to hash")
-    parser.add_argument("-a", "--algorithm", action="store", nargs="+", default=["sha256"], choices=["sha1", "sha256", "md5"],
-                        type=str, help="algorithms to use for hashing file (choose from 'sha1', 'sha256', 'md5')", metavar="", required=False)
+    parser.add_argument("-sha1", action="append_const", const="sha1",
+                        dest="algorithm", help="use sha1 for hashing")
+    parser.add_argument("-sha256", action="append_const", const="sha256",
+                        dest="algorithm", help="use sha256 for hashing")
+    parser.add_argument("-md5", action="append_const", const="md5",
+                        dest="algorithm", help="use md5 for hashing")
     parser.add_argument("-c", "--compare", action="store",
-                        help="compare file hash with the provided hash", metavar="HASH")
+                        help="compare generated file hash with the provided hash", metavar="HASH")
     data = parser.parse_args()
     # print(data)
-    # if data.compare:
-    #     data.algorithm = ["sha1", "sha256", "md5"]
-    # calculate hash
+
+    if not data.algorithm:
+        data.algorithm = ["sha256"]
+
     file_hash = {}
     print("Calculating Hash...")
     print()
