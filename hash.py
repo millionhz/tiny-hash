@@ -26,14 +26,14 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(
         description="calculate file hashes",
-        epilog="by default the script generates sha256 hash")
+        epilog="the script generates sha256 hash if no argument is provided")
     parser.add_argument("file", action="store",
                         type=str, help="file to hash")
-    parser.add_argument("-sha1", action="append_const", const="sha1",
+    parser.add_argument("--sha1", action="append_const", const="sha1",
                         dest="algorithm", help="use sha1 for hashing")
-    parser.add_argument("-sha256", action="append_const", const="sha256",
+    parser.add_argument("--sha256", action="append_const", const="sha256",
                         dest="algorithm", help="use sha256 for hashing")
-    parser.add_argument("-md5", action="append_const", const="md5",
+    parser.add_argument("--md5", action="append_const", const="md5",
                         dest="algorithm", help="use md5 for hashing")
     parser.add_argument("-c", "--compare", action="store",
                         help="compare generated file hash with the provided hash", metavar="HASH")
@@ -44,7 +44,7 @@ if __name__ == "__main__":
         data.algorithm = ["sha256"]
 
     file_hash = {}
-    print("Calculating Hash...")
+    print("Calculating...")
     print()
     for algo in data.algorithm:
         file_hash[algo] = hash_it(data.file, algo)
